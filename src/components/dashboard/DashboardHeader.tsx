@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import { ConstituencyData } from "@/types/election";
 import { ConstituencySelector } from "./ConstituencySelector";
-import { Vote } from "lucide-react";
+import { Vote, List } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface DashboardHeaderProps {
   constituencies: ConstituencyData[];
@@ -32,11 +34,19 @@ export function DashboardHeader({
               </p>
             </div>
           </div>
-          <ConstituencySelector
-            constituencies={constituencies}
-            selectedAC={selectedAC}
-            onSelect={onSelect}
-          />
+          <div className="flex items-center gap-3">
+            <ConstituencySelector
+              constituencies={constituencies}
+              selectedAC={selectedAC}
+              onSelect={onSelect}
+            />
+            <Link to="/constituencies">
+              <Button variant="outline" size="sm">
+                <List className="h-4 w-4 mr-1.5" />
+                View All
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </header>
