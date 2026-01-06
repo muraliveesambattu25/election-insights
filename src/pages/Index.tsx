@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Users, Percent, TrendingUp, Ban, MapPin } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { Users, Percent, TrendingUp, Ban, MapPin, List } from "lucide-react";
 import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
@@ -8,12 +9,24 @@ import { CandidateCard } from "@/components/dashboard/CandidateCard";
 import { VotesBarChart } from "@/components/dashboard/VotesBarChart";
 import { VoteShareChart } from "@/components/dashboard/VoteShareChart";
 import { CandidatesTable } from "@/components/dashboard/CandidatesTable";
+import { Button } from "@/components/ui/button";
 
 const electionData = electionDataRaw as ElectionData;
 const constituencies = electionData.AndhraPradeshAssemblyElections2024;
 
 const Index = () => {
-  const [selectedAC, setSelectedAC] = useState(1);
+  const [searchParams] = useSearchParams();
+  const acParam = searchParams.get("ac");
+  const [selectedAC, setSelectedAC] = useState(acParam ? parseInt(acParam) : 1);
+
+  useEffect(() => {
+    if (acParam) {
+      const acNo = parseInt(acParam);
+      if (constituencies.some((c) => c.AC_No === acNo)) {
+        setSelectedAC(acNo);
+      }
+    }
+  }, [acParam]);
 
   const selectedConstituency = constituencies.find(
     (c) => c.AC_No === selectedAC
