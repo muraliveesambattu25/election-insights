@@ -40,7 +40,7 @@ export function DashboardHeader({
               selectedAC={selectedAC}
               onSelect={onSelect}
             />
-            <Link to="/constituencies">
+            <Link to="/">
               <Button variant="outline" size="sm">
                 <List className="h-4 w-4 mr-1.5" />
                 View All

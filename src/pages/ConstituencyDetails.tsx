@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-import { useSearchParams, Link, useLocation, useNavigate } from "react-router-dom";
-import { Users, Percent, TrendingUp, Ban, MapPin, List } from "lucide-react";
+import { useParams } from "react-router-dom";
 import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
@@ -9,45 +7,26 @@ import { CandidateCard } from "@/components/dashboard/CandidateCard";
 import { VotesBarChart } from "@/components/dashboard/VotesBarChart";
 import { VoteShareChart } from "@/components/dashboard/VoteShareChart";
 import { CandidatesTable } from "@/components/dashboard/CandidatesTable";
-import { Button } from "@/components/ui/button";
+import { Ban, MapPin, Percent, TrendingUp, Users } from "lucide-react";
 
 const electionData = electionDataRaw as ElectionData;
 const constituencies = electionData.AndhraPradeshAssemblyElections2024;
 
-const Index = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const acParam = searchParams.get("ac");
-  const [selectedAC, setSelectedAC] = useState(acParam ? parseInt(acParam) : 1);
-
-  // Redirect if ?ac= is present in URL
-  useEffect(() => {
-    if (location.pathname === "/" && acParam) {
-      navigate(`/constituency/${acParam}`);
-    }
-  }, [location, acParam, navigate]);
-
-  useEffect(() => {
-    if (acParam) {
-      const acNo = parseInt(acParam);
-      if (constituencies.some((c) => c.AC_No === acNo)) {
-        setSelectedAC(acNo);
-      }
-    }
-  }, [acParam]);
-
+const ConstituencyDetails = () => {
+  const { acNo } = useParams();
+  const selectedAC = acNo ? parseInt(acNo) : 1;
   const selectedConstituency = constituencies.find(
     (c) => c.AC_No === selectedAC
   ) as ConstituencyData;
 
-  // Calculate total votes for percentage calculations
+  if (!selectedConstituency) {
+    return <div className="container py-8">Constituency not found.</div>;
+  }
+
   const totalVotesCast = selectedConstituency.Top_5_Candidates.reduce(
     (sum, c) => sum + c.Votes_Secured,
     0
   );
-
-  // Parse polling percentage
   const pollingPercent = parseFloat(
     selectedConstituency.Polling_Percentage.replace(" %", "")
   );
@@ -57,10 +36,8 @@ const Index = () => {
       <DashboardHeader
         constituencies={constituencies}
         selectedAC={selectedAC}
-        onSelect={setSelectedAC}
         selectedConstituency={selectedConstituency}
       />
-
       <main className="container py-8 space-y-8">
         {/* Constituency Title */}
         <div className="text-center animate-fade-in">
@@ -74,7 +51,6 @@ const Index = () => {
             {selectedConstituency.Constituency_Name}
           </h2>
         </div>
-
         {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <KPICard
@@ -108,7 +84,6 @@ const Index = () => {
             variant="nota"
           />
         </div>
-
         {/* Winner & Runner-up Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <CandidateCard
@@ -126,7 +101,6 @@ const Index = () => {
             totalVotes={totalVotesCast}
           />
         </div>
-
         {/* Vote Gap Visual */}
         <div className="bg-card rounded-xl border border-border p-6 shadow-sm animate-fade-in">
           <h3 className="text-lg font-semibold text-foreground mb-4">
@@ -190,25 +164,23 @@ const Index = () => {
               <span className="font-bold text-winner">
                 {selectedConstituency.Winning_Margin.toLocaleString()}
               </span>{" "}
-              votes (
-              {(
-                (selectedConstituency.Winning_Margin / totalVotesCast) *
-                100
-              ).toFixed(1)}
+              votes ({
+                (
+                  (selectedConstituency.Winning_Margin / totalVotesCast) *
+                  100
+                ).toFixed(1)
+              }
               % margin)
             </span>
           </div>
         </div>
-
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <VotesBarChart candidates={selectedConstituency.Top_5_Candidates} />
           <VoteShareChart candidates={selectedConstituency.Top_5_Candidates} />
         </div>
-
         {/* Candidates Table */}
         <CandidatesTable candidates={selectedConstituency.Top_5_Candidates} />
-
         {/* Footer */}
         <footer className="text-center py-6 text-sm text-muted-foreground">
           <p>
@@ -220,4 +192,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default ConstituencyDetails;

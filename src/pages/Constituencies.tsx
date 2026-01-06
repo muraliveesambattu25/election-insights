@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { Link, useSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { Search, Vote, ChevronLeft, ChevronRight, ExternalLink, Filter, X, ArrowUpDown, ArrowUp, ArrowDown, Download, AlertTriangle } from "lucide-react";
 import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
@@ -38,12 +38,24 @@ type SortColumn = "ac" | "name" | "winner" | "party" | "votes" | "margin" | "pol
 type SortDirection = "asc" | "desc";
 
 const Constituencies = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const acParam = searchParams.get("ac");
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedParty, setSelectedParty] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(25);
   const [sortColumn, setSortColumn] = useState<SortColumn>("ac");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+
+  // Redirect if ?ac= is present in URL
+  useEffect(() => {
+    if (location.pathname === "/" && acParam) {
+      navigate(`/constituency/${acParam}`);
+    }
+  }, [location, acParam, navigate]);
 
   // Sort function
   const getSortValue = (c: ConstituencyData, column: SortColumn): string | number => {
@@ -231,12 +243,7 @@ const Constituencies = () => {
                 </p>
               </div>
             </div>
-            <Link to="/">
-              <Button variant="outline" size="sm">
-                <ChevronLeft className="h-4 w-4 mr-1" />
-                Back to Dashboard
-              </Button>
-            </Link>
+          
           </div>
         </div>
       </header>

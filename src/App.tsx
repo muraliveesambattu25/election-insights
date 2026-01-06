@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Constituencies from "./pages/Constituencies";
+import ConstituencyDetails from "./pages/ConstituencyDetails";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -16,8 +17,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/constituencies" element={<Constituencies />} />
+          {/* <Route path="/" element={<Index />} /> */}
+          <Route path="/" element={<Constituencies />} />
+          <Route path="/constituency/:acNo" element={<ConstituencyDetails />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
