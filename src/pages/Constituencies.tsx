@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Search, Vote, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import { Search, Vote, ChevronLeft, ChevronRight, ExternalLink, Filter, X } from "lucide-react";
 import { ElectionData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { PartyBadge } from "@/components/dashboard/PartyBadge";
@@ -19,24 +19,40 @@ const constituencies = electionData.AndhraPradeshAssemblyElections2024;
 
 const ITEMS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
 
+// Get unique parties from the data
+const uniqueParties = Array.from(
+  new Set(constituencies.map((c) => c.Winner_Details.Party))
+).sort();
+
 const Constituencies = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedParty, setSelectedParty] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(25);
 
-  // Filter constituencies based on search
+  // Filter constituencies based on search and party
   const filteredConstituencies = useMemo(() => {
-    if (!searchQuery.trim()) return constituencies;
+    let result = constituencies;
 
-    const query = searchQuery.toLowerCase();
-    return constituencies.filter(
-      (c) =>
-        c.Constituency_Name.toLowerCase().includes(query) ||
-        c.AC_No.toString().includes(query) ||
-        c.Winner_Details.Name.toLowerCase().includes(query) ||
-        c.Winner_Details.Party.toLowerCase().includes(query)
-    );
-  }, [searchQuery]);
+    // Filter by party first
+    if (selectedParty !== "all") {
+      result = result.filter((c) => c.Winner_Details.Party === selectedParty);
+    }
+
+    // Then filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(
+        (c) =>
+          c.Constituency_Name.toLowerCase().includes(query) ||
+          c.AC_No.toString().includes(query) ||
+          c.Winner_Details.Name.toLowerCase().includes(query) ||
+          c.Winner_Details.Party.toLowerCase().includes(query)
+      );
+    }
+
+    return result;
+  }, [searchQuery, selectedParty]);
 
   // Pagination calculations
   const totalPages = Math.ceil(filteredConstituencies.length / itemsPerPage);
@@ -44,9 +60,14 @@ const Constituencies = () => {
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = filteredConstituencies.slice(startIndex, endIndex);
 
-  // Reset to page 1 when search changes
+  // Reset to page 1 when filters change
   const handleSearch = (value: string) => {
     setSearchQuery(value);
+    setCurrentPage(1);
+  };
+
+  const handlePartyChange = (value: string) => {
+    setSelectedParty(value);
     setCurrentPage(1);
   };
 
@@ -54,6 +75,14 @@ const Constituencies = () => {
     setItemsPerPage(parseInt(value));
     setCurrentPage(1);
   };
+
+  const clearFilters = () => {
+    setSearchQuery("");
+    setSelectedParty("all");
+    setCurrentPage(1);
+  };
+
+  const hasActiveFilters = searchQuery || selectedParty !== "all";
 
   // Generate page numbers to show
   const getPageNumbers = () => {
@@ -114,34 +143,83 @@ const Constituencies = () => {
       <main className="container py-8 space-y-6">
         {/* Search & Controls */}
         <div className="bg-card rounded-xl border border-border p-4 shadow-sm animate-fade-in">
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-            <div className="relative w-full sm:w-96">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search by name, AC number, winner, or party..."
-                value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="pl-10"
-              />
+          <div className="flex flex-col gap-4">
+            {/* Search and Party Filter Row */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="relative flex-1 sm:max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search by name, AC number, winner..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select value={selectedParty} onValueChange={handlePartyChange}>
+                  <SelectTrigger className="w-40 bg-card">
+                    <SelectValue placeholder="All Parties" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-card border border-border z-50">
+                    <SelectItem value="all">All Parties</SelectItem>
+                    {uniqueParties.map((party) => (
+                      <SelectItem key={party} value={party}>
+                        <div className="flex items-center gap-2">
+                          <span>{party}</span>
+                          <span className="text-xs text-muted-foreground">
+                            ({constituencies.filter((c) => c.Winner_Details.Party === party).length})
+                          </span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {hasActiveFilters && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearFilters}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4 mr-1" />
+                    Clear
+                  </Button>
+                )}
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground">Show:</span>
-              <Select
-                value={itemsPerPage.toString()}
-                onValueChange={handleItemsPerPageChange}
-              >
-                <SelectTrigger className="w-20">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {ITEMS_PER_PAGE_OPTIONS.map((option) => (
-                    <SelectItem key={option} value={option.toString()}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <span className="text-sm text-muted-foreground">per page</span>
+            
+            {/* Items per page - aligned right */}
+            <div className="flex items-center justify-between">
+              {/* Active filter badges */}
+              <div className="flex items-center gap-2">
+                {selectedParty !== "all" && (
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-secondary rounded-full">
+                    <span className="text-xs text-muted-foreground">Party:</span>
+                    <PartyBadge party={selectedParty} size="sm" />
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-muted-foreground">Show:</span>
+                <Select
+                  value={itemsPerPage.toString()}
+                  onValueChange={handleItemsPerPageChange}
+                >
+                  <SelectTrigger className="w-20 bg-card">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-card border border-border z-50">
+                    {ITEMS_PER_PAGE_OPTIONS.map((option) => (
+                      <SelectItem key={option} value={option.toString()}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <span className="text-sm text-muted-foreground">per page</span>
+              </div>
             </div>
           </div>
         </div>
@@ -149,19 +227,30 @@ const Constituencies = () => {
         {/* Results Count */}
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            Showing{" "}
-            <span className="font-medium text-foreground">
-              {startIndex + 1}-{Math.min(endIndex, filteredConstituencies.length)}
-            </span>{" "}
-            of{" "}
-            <span className="font-medium text-foreground">
-              {filteredConstituencies.length}
-            </span>{" "}
-            constituencies
-            {searchQuery && (
-              <span className="ml-1">
-                for "<span className="font-medium">{searchQuery}</span>"
-              </span>
+            {filteredConstituencies.length > 0 ? (
+              <>
+                Showing{" "}
+                <span className="font-medium text-foreground">
+                  {startIndex + 1}-{Math.min(endIndex, filteredConstituencies.length)}
+                </span>{" "}
+                of{" "}
+                <span className="font-medium text-foreground">
+                  {filteredConstituencies.length}
+                </span>{" "}
+                constituencies
+                {selectedParty !== "all" && (
+                  <span className="ml-1">
+                    won by <span className="font-medium">{selectedParty}</span>
+                  </span>
+                )}
+                {searchQuery && (
+                  <span className="ml-1">
+                    matching "<span className="font-medium">{searchQuery}</span>"
+                  </span>
+                )}
+              </>
+            ) : (
+              <span>No constituencies found</span>
             )}
           </p>
         </div>
