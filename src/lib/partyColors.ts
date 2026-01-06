@@ -1,3 +1,6 @@
+import { Sun, Waves, Flame, TreeDeciduous, Scale, User, Circle } from "lucide-react";
+import { LucideIcon } from "lucide-react";
+
 // Party color mapping for consistent visualization
 export const PARTY_COLORS: Record<string, string> = {
   TDP: "hsl(45, 100%, 50%)",      // Gold/Yellow
@@ -10,8 +13,22 @@ export const PARTY_COLORS: Record<string, string> = {
   IND: "hsl(0, 0%, 60%)",         // Light Gray
 };
 
+// Party icon mapping using Lucide icons as symbolic representations
+export const PARTY_ICONS: Record<string, LucideIcon> = {
+  TDP: Sun,           // Cycle/Sun symbol
+  YSRCP: Waves,       // Fan/Waves symbol
+  BJP: Flame,         // Lotus/Flame symbol
+  INC: TreeDeciduous, // Hand/Tree symbol
+  JnP: Scale,         // Justice/Scale symbol
+  IND: User,          // Independent person
+};
+
 export const getPartyColor = (party: string): string => {
   return PARTY_COLORS[party] || "hsl(0, 0%, 70%)";
+};
+
+export const getPartyIcon = (party: string): LucideIcon | null => {
+  return PARTY_ICONS[party] || null;
 };
 
 export const getPartyBgClass = (party: string): string => {

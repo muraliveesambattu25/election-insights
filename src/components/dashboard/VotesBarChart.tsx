@@ -30,11 +30,16 @@ export function VotesBarChart({ candidates }: VotesBarChartProps) {
     return null;
   };
 
+  // Get unique parties from data for legend
+  const uniqueParties = [...new Set(data.map((d) => d.party))];
+
   return (
     <div className="bg-card rounded-xl border border-border p-6 shadow-sm animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground mb-6">
-        Top 5 Candidates by Votes
-      </h3>
+      <div className="flex items-start justify-between mb-6">
+        <h3 className="text-lg font-semibold text-foreground">
+          Top 5 Candidates by Votes
+        </h3>
+      </div>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} layout="vertical" margin={{ left: 20, right: 20 }}>
@@ -59,6 +64,20 @@ export function VotesBarChart({ candidates }: VotesBarChartProps) {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
+      </div>
+      {/* Party Legend */}
+      <div className="mt-4 pt-4 border-t border-border">
+        <div className="flex flex-wrap gap-3 justify-center">
+          {uniqueParties.map((party) => (
+            <div key={party} className="flex items-center gap-1.5">
+              <div
+                className="w-3 h-3 rounded"
+                style={{ backgroundColor: getPartyColor(party) }}
+              />
+              <span className="text-xs text-muted-foreground">{party}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
