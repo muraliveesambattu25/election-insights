@@ -5,6 +5,7 @@ import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { PartyBadge } from "@/components/dashboard/PartyBadge";
 import { PartySeatsSummary } from "@/components/dashboard/PartySeatsSummary";
+import { ConstituencyMap } from "@/components/dashboard/ConstituencyMap";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -241,8 +242,14 @@ const Constituencies = () => {
       </header>
 
       <main className="container py-8 space-y-6">
-        {/* State-wide Summary */}
-        <PartySeatsSummary partySeats={partySeats} />
+        {/* State-wide Summary & Map */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <PartySeatsSummary partySeats={partySeats} />
+          <ConstituencyMap 
+            constituencies={constituencies}
+            onConstituencyClick={(acNo) => window.location.href = `/?ac=${acNo}`}
+          />
+        </div>
         {/* Search & Controls */}
         <div className="bg-card rounded-xl border border-border p-4 shadow-sm animate-fade-in">
           <div className="flex flex-col gap-4">
