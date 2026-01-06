@@ -1,11 +1,12 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Search, Vote, ChevronLeft, ChevronRight, ExternalLink, Filter, X } from "lucide-react";
-import { ElectionData } from "@/types/election";
+import { Search, Vote, ChevronLeft, ChevronRight, ExternalLink, Filter, X, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { PartyBadge } from "@/components/dashboard/PartyBadge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -24,15 +25,42 @@ const uniqueParties = Array.from(
   new Set(constituencies.map((c) => c.Winner_Details.Party))
 ).sort();
 
+type SortColumn = "ac" | "name" | "winner" | "party" | "votes" | "margin" | "polling";
+type SortDirection = "asc" | "desc";
+
 const Constituencies = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedParty, setSelectedParty] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(25);
+  const [sortColumn, setSortColumn] = useState<SortColumn>("ac");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
-  // Filter constituencies based on search and party
-  const filteredConstituencies = useMemo(() => {
-    let result = constituencies;
+  // Sort function
+  const getSortValue = (c: ConstituencyData, column: SortColumn): string | number => {
+    switch (column) {
+      case "ac":
+        return c.AC_No;
+      case "name":
+        return c.Constituency_Name.toLowerCase();
+      case "winner":
+        return c.Winner_Details.Name.toLowerCase();
+      case "party":
+        return c.Winner_Details.Party.toLowerCase();
+      case "votes":
+        return c.Winner_Details.Votes_Secured;
+      case "margin":
+        return c.Winning_Margin;
+      case "polling":
+        return parseFloat(c.Polling_Percentage.replace(" %", ""));
+      default:
+        return c.AC_No;
+    }
+  };
+
+  // Filter and sort constituencies
+  const filteredAndSortedConstituencies = useMemo(() => {
+    let result = [...constituencies];
 
     // Filter by party first
     if (selectedParty !== "all") {
@@ -51,14 +79,47 @@ const Constituencies = () => {
       );
     }
 
+    // Sort
+    result.sort((a, b) => {
+      const aVal = getSortValue(a, sortColumn);
+      const bVal = getSortValue(b, sortColumn);
+      
+      if (aVal < bVal) return sortDirection === "asc" ? -1 : 1;
+      if (aVal > bVal) return sortDirection === "asc" ? 1 : -1;
+      return 0;
+    });
+
     return result;
-  }, [searchQuery, selectedParty]);
+  }, [searchQuery, selectedParty, sortColumn, sortDirection]);
 
   // Pagination calculations
-  const totalPages = Math.ceil(filteredConstituencies.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredAndSortedConstituencies.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = filteredConstituencies.slice(startIndex, endIndex);
+  const paginatedData = filteredAndSortedConstituencies.slice(startIndex, endIndex);
+
+  // Handle column sort
+  const handleSort = (column: SortColumn) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortDirection("asc");
+    }
+    setCurrentPage(1);
+  };
+
+  // Sort indicator component
+  const SortIndicator = ({ column }: { column: SortColumn }) => {
+    if (sortColumn !== column) {
+      return <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground/50" />;
+    }
+    return sortDirection === "asc" ? (
+      <ArrowUp className="h-3.5 w-3.5 text-foreground" />
+    ) : (
+      <ArrowDown className="h-3.5 w-3.5 text-foreground" />
+    );
+  };
 
   // Reset to page 1 when filters change
   const handleSearch = (value: string) => {
@@ -79,10 +140,12 @@ const Constituencies = () => {
   const clearFilters = () => {
     setSearchQuery("");
     setSelectedParty("all");
+    setSortColumn("ac");
+    setSortDirection("asc");
     setCurrentPage(1);
   };
 
-  const hasActiveFilters = searchQuery || selectedParty !== "all";
+  const hasActiveFilters = searchQuery || selectedParty !== "all" || sortColumn !== "ac" || sortDirection !== "asc";
 
   // Generate page numbers to show
   const getPageNumbers = () => {
@@ -227,15 +290,15 @@ const Constituencies = () => {
         {/* Results Count */}
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            {filteredConstituencies.length > 0 ? (
+            {filteredAndSortedConstituencies.length > 0 ? (
               <>
                 Showing{" "}
                 <span className="font-medium text-foreground">
-                  {startIndex + 1}-{Math.min(endIndex, filteredConstituencies.length)}
+                  {startIndex + 1}-{Math.min(endIndex, filteredAndSortedConstituencies.length)}
                 </span>{" "}
                 of{" "}
                 <span className="font-medium text-foreground">
-                  {filteredConstituencies.length}
+                  {filteredAndSortedConstituencies.length}
                 </span>{" "}
                 constituencies
                 {selectedParty !== "all" && (
@@ -261,13 +324,69 @@ const Constituencies = () => {
             <table className="data-table">
               <thead>
                 <tr className="bg-muted/50">
-                  <th className="w-20">AC No.</th>
-                  <th>Constituency</th>
-                  <th>Winner</th>
-                  <th>Party</th>
-                  <th className="text-right">Votes</th>
-                  <th className="text-right">Margin</th>
-                  <th className="text-right">Polling %</th>
+                  <th 
+                    className="w-20 cursor-pointer select-none hover:bg-muted transition-colors"
+                    onClick={() => handleSort("ac")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      AC No.
+                      <SortIndicator column="ac" />
+                    </div>
+                  </th>
+                  <th 
+                    className="cursor-pointer select-none hover:bg-muted transition-colors"
+                    onClick={() => handleSort("name")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      Constituency
+                      <SortIndicator column="name" />
+                    </div>
+                  </th>
+                  <th 
+                    className="cursor-pointer select-none hover:bg-muted transition-colors"
+                    onClick={() => handleSort("winner")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      Winner
+                      <SortIndicator column="winner" />
+                    </div>
+                  </th>
+                  <th 
+                    className="cursor-pointer select-none hover:bg-muted transition-colors"
+                    onClick={() => handleSort("party")}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      Party
+                      <SortIndicator column="party" />
+                    </div>
+                  </th>
+                  <th 
+                    className="text-right cursor-pointer select-none hover:bg-muted transition-colors"
+                    onClick={() => handleSort("votes")}
+                  >
+                    <div className="flex items-center justify-end gap-1.5">
+                      Votes
+                      <SortIndicator column="votes" />
+                    </div>
+                  </th>
+                  <th 
+                    className="text-right cursor-pointer select-none hover:bg-muted transition-colors"
+                    onClick={() => handleSort("margin")}
+                  >
+                    <div className="flex items-center justify-end gap-1.5">
+                      Margin
+                      <SortIndicator column="margin" />
+                    </div>
+                  </th>
+                  <th 
+                    className="text-right cursor-pointer select-none hover:bg-muted transition-colors"
+                    onClick={() => handleSort("polling")}
+                  >
+                    <div className="flex items-center justify-end gap-1.5">
+                      Polling %
+                      <SortIndicator column="polling" />
+                    </div>
+                  </th>
                   <th className="w-16"></th>
                 </tr>
               </thead>
