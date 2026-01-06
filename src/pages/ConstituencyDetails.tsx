@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
@@ -14,6 +14,7 @@ const constituencies = electionData.AndhraPradeshAssemblyElections2024;
 
 const ConstituencyDetails = () => {
   const { acNo } = useParams();
+  const navigate = useNavigate();
   const selectedAC = acNo ? parseInt(acNo) : 1;
   const selectedConstituency = constituencies.find(
     (c) => c.AC_No === selectedAC
@@ -37,6 +38,7 @@ const ConstituencyDetails = () => {
         constituencies={constituencies}
         selectedAC={selectedAC}
         selectedConstituency={selectedConstituency}
+        onSelect={(ac) => navigate(`/constituency/${ac}`)}
       />
       <main className="container py-8 space-y-8">
         {/* Constituency Title */}
@@ -115,11 +117,10 @@ const ConstituencyDetails = () => {
                 <div
                   className="h-full bg-winner rounded-full transition-all duration-500"
                   style={{
-                    width: `${
-                      (selectedConstituency.Winner_Details.Votes_Secured /
+                    width: `${(selectedConstituency.Winner_Details.Votes_Secured /
                         totalVotesCast) *
                       100
-                    }%`,
+                      }%`,
                   }}
                 />
               </div>
@@ -140,11 +141,10 @@ const ConstituencyDetails = () => {
                 <div
                   className="h-full bg-muted-foreground/30 rounded-full transition-all duration-500"
                   style={{
-                    width: `${
-                      (selectedConstituency.Runner_up_Details.Votes_Secured /
+                    width: `${(selectedConstituency.Runner_up_Details.Votes_Secured /
                         totalVotesCast) *
                       100
-                    }%`,
+                      }%`,
                   }}
                 />
               </div>
