@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+        display: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,6 +61,28 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        party: {
+          tdp: "hsl(var(--party-tdp))",
+          ysrcp: "hsl(var(--party-ysrcp))",
+          bjp: "hsl(var(--party-bjp))",
+          inc: "hsl(var(--party-inc))",
+          jnp: "hsl(var(--party-jnp))",
+          bsp: "hsl(var(--party-bsp))",
+          nota: "hsl(var(--party-nota))",
+          ind: "hsl(var(--party-ind))",
+          other: "hsl(var(--party-other))",
+        },
+        winner: {
+          DEFAULT: "hsl(var(--winner))",
+          bg: "hsl(var(--winner-bg))",
+          border: "hsl(var(--winner-border))",
+        },
+        kpi: {
+          electors: "hsl(var(--kpi-electors))",
+          polling: "hsl(var(--kpi-polling))",
+          margin: "hsl(var(--kpi-margin))",
+          nota: "hsl(var(--kpi-nota))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -65,25 +91,27 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "fade-in": {
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "scale-in": {
+          from: { opacity: "0", transform: "scale(0.95)" },
+          to: { opacity: "1", transform: "scale(1)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.3s ease-out",
+        "scale-in": "scale-in 0.2s ease-out",
       },
     },
   },
