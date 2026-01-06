@@ -4,6 +4,7 @@ import { Search, Vote, ChevronLeft, ChevronRight, ExternalLink, Filter, X, Arrow
 import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { PartyBadge } from "@/components/dashboard/PartyBadge";
+import { PartySeatsSummary } from "@/components/dashboard/PartySeatsSummary";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -24,6 +25,12 @@ const ITEMS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
 const uniqueParties = Array.from(
   new Set(constituencies.map((c) => c.Winner_Details.Party))
 ).sort();
+
+// Calculate seats won by each party
+const partySeats = uniqueParties.map((party) => ({
+  party,
+  seats: constituencies.filter((c) => c.Winner_Details.Party === party).length,
+}));
 
 type SortColumn = "ac" | "name" | "winner" | "party" | "votes" | "margin" | "polling";
 type SortDirection = "asc" | "desc";
@@ -204,6 +211,8 @@ const Constituencies = () => {
       </header>
 
       <main className="container py-8 space-y-6">
+        {/* State-wide Summary */}
+        <PartySeatsSummary partySeats={partySeats} />
         {/* Search & Controls */}
         <div className="bg-card rounded-xl border border-border p-4 shadow-sm animate-fade-in">
           <div className="flex flex-col gap-4">
