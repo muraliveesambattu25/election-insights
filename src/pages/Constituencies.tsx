@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Search, Vote, ChevronLeft, ChevronRight, ExternalLink, Filter, X, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Search, Vote, ChevronLeft, ChevronRight, ExternalLink, Filter, X, ArrowUpDown, ArrowUp, ArrowDown, Download, AlertTriangle } from "lucide-react";
 import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { PartyBadge } from "@/components/dashboard/PartyBadge";
@@ -20,6 +20,7 @@ const electionData = electionDataRaw as ElectionData;
 const constituencies = electionData.AndhraPradeshAssemblyElections2024;
 
 const ITEMS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
+const CLOSE_RACE_THRESHOLD = 5000;
 
 // Get unique parties from the data
 const uniqueParties = Array.from(
@@ -153,6 +154,35 @@ const Constituencies = () => {
   };
 
   const hasActiveFilters = searchQuery || selectedParty !== "all" || sortColumn !== "ac" || sortDirection !== "asc";
+
+  // Export to CSV
+  const exportToCSV = () => {
+    const headers = ["AC No", "Constituency", "Winner", "Party", "Votes", "Margin", "Polling %"];
+    const rows = filteredAndSortedConstituencies.map((c) => [
+      c.AC_No,
+      c.Constituency_Name,
+      c.Winner_Details.Name,
+      c.Winner_Details.Party,
+      c.Winner_Details.Votes_Secured,
+      c.Winning_Margin,
+      c.Polling_Percentage,
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) => row.map((cell) => `"${cell}"`).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `ap-elections-2024${selectedParty !== "all" ? `-${selectedParty}` : ""}${searchQuery ? `-${searchQuery}` : ""}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const isCloseRace = (margin: number) => margin < CLOSE_RACE_THRESHOLD;
 
   // Generate page numbers to show
   const getPageNumbers = () => {
@@ -296,8 +326,8 @@ const Constituencies = () => {
           </div>
         </div>
 
-        {/* Results Count */}
-        <div className="flex items-center justify-between">
+        {/* Results Count & Export */}
+        <div className="flex items-center justify-between flex-wrap gap-4">
           <p className="text-sm text-muted-foreground">
             {filteredAndSortedConstituencies.length > 0 ? (
               <>
@@ -325,6 +355,15 @@ const Constituencies = () => {
               <span>No constituencies found</span>
             )}
           </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={exportToCSV}
+            disabled={filteredAndSortedConstituencies.length === 0}
+          >
+            <Download className="h-4 w-4 mr-1.5" />
+            Export CSV
+          </Button>
         </div>
 
         {/* Table */}
@@ -400,52 +439,69 @@ const Constituencies = () => {
                 </tr>
               </thead>
               <tbody>
-                {paginatedData.map((constituency) => (
-                  <tr
-                    key={constituency.AC_No}
-                    className="transition-colors hover:bg-muted/50"
-                  >
-                    <td>
-                      <span className="inline-flex items-center justify-center w-10 h-8 rounded bg-secondary text-secondary-foreground font-mono font-semibold text-sm">
-                        {constituency.AC_No}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="font-medium text-foreground">
-                        {constituency.Constituency_Name}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="text-foreground">
-                        {constituency.Winner_Details.Name}
-                      </span>
-                    </td>
-                    <td>
-                      <PartyBadge
-                        party={constituency.Winner_Details.Party}
-                        size="sm"
-                      />
-                    </td>
-                    <td className="text-right font-mono">
-                      {constituency.Winner_Details.Votes_Secured.toLocaleString()}
-                    </td>
-                    <td className="text-right">
-                      <span className="font-mono font-semibold text-winner">
-                        +{constituency.Winning_Margin.toLocaleString()}
-                      </span>
-                    </td>
-                    <td className="text-right font-mono text-muted-foreground">
-                      {constituency.Polling_Percentage}
-                    </td>
-                    <td>
-                      <Link to={`/?ac=${constituency.AC_No}`}>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <ExternalLink className="h-4 w-4" />
-                        </Button>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
+                {paginatedData.map((constituency) => {
+                  const closeRace = isCloseRace(constituency.Winning_Margin);
+                  return (
+                    <tr
+                      key={constituency.AC_No}
+                      className={cn(
+                        "transition-colors hover:bg-muted/50",
+                        closeRace && "bg-amber-500/5"
+                      )}
+                    >
+                      <td>
+                        <span className="inline-flex items-center justify-center w-10 h-8 rounded bg-secondary text-secondary-foreground font-mono font-semibold text-sm">
+                          {constituency.AC_No}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-foreground">
+                            {constituency.Constituency_Name}
+                          </span>
+                          {closeRace && (
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400">
+                              <AlertTriangle className="h-3 w-3" />
+                              Close
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <span className="text-foreground">
+                          {constituency.Winner_Details.Name}
+                        </span>
+                      </td>
+                      <td>
+                        <PartyBadge
+                          party={constituency.Winner_Details.Party}
+                          size="sm"
+                        />
+                      </td>
+                      <td className="text-right font-mono">
+                        {constituency.Winner_Details.Votes_Secured.toLocaleString()}
+                      </td>
+                      <td className="text-right">
+                        <span className={cn(
+                          "font-mono font-semibold",
+                          closeRace ? "text-amber-600 dark:text-amber-400" : "text-winner"
+                        )}>
+                          +{constituency.Winning_Margin.toLocaleString()}
+                        </span>
+                      </td>
+                      <td className="text-right font-mono text-muted-foreground">
+                        {constituency.Polling_Percentage}
+                      </td>
+                      <td>
+                        <Link to={`/?ac=${constituency.AC_No}`}>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
