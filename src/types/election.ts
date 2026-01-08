@@ -15,6 +15,7 @@ export interface CandidateDetails {
 export interface ConstituencyData {
   AC_No: number;
   Constituency_Name: string;
+  District: string;
   Total_Electors: number;
   Polling_Percentage: string;
   NOTA_Votes: number;

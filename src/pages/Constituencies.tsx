@@ -5,7 +5,6 @@ import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { PartyBadge } from "@/components/dashboard/PartyBadge";
 import { PartySeatsSummary } from "@/components/dashboard/PartySeatsSummary";
-import { ConstituencyMap } from "@/components/dashboard/ConstituencyMap";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -34,6 +33,8 @@ const partySeats = uniqueParties.map((party) => ({
   seats: constituencies.filter((c) => c.Winner_Details.Party === party).length,
 }));
 
+
+
 type SortColumn = "ac" | "name" | "winner" | "party" | "votes" | "margin" | "polling";
 type SortDirection = "asc" | "desc";
 
@@ -42,7 +43,7 @@ const Constituencies = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const acParam = searchParams.get("ac");
-  
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedParty, setSelectedParty] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -104,7 +105,7 @@ const Constituencies = () => {
     result.sort((a, b) => {
       const aVal = getSortValue(a, sortColumn);
       const bVal = getSortValue(b, sortColumn);
-      
+
       if (aVal < bVal) return sortDirection === "asc" ? -1 : 1;
       if (aVal > bVal) return sortDirection === "asc" ? 1 : -1;
       return 0;
@@ -227,35 +228,14 @@ const Constituencies = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-card border-b border-border sticky top-0 z-10">
-        <div className="container py-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-primary rounded-lg">
-                <Vote className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-foreground">
-                  AP Assembly Elections 2024
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  All Constituencies Overview
-                </p>
-              </div>
-            </div>
-          
-          </div>
-        </div>
-      </header>
-
       <main className="container py-8 space-y-6">
+        <div className="mb-2">
+          <h1 className="text-3xl font-bold text-foreground">AP Assembly Elections 2024</h1>
+          <p className="text-muted-foreground">All Constituencies Overview</p>
+        </div>
         {/* State-wide Summary & Map */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1  gap-6">
           <PartySeatsSummary partySeats={partySeats} />
-          <ConstituencyMap 
-            constituencies={constituencies}
-            onConstituencyClick={(acNo) => window.location.href = `/?ac=${acNo}`}
-          />
         </div>
         {/* Search & Controls */}
         <div className="bg-card rounded-xl border border-border p-4 shadow-sm animate-fade-in">
@@ -304,7 +284,7 @@ const Constituencies = () => {
                 )}
               </div>
             </div>
-            
+
             {/* Items per page - aligned right */}
             <div className="flex items-center justify-between">
               {/* Active filter badges */}
@@ -316,7 +296,7 @@ const Constituencies = () => {
                   </div>
                 )}
               </div>
-              
+
               <div className="flex items-center gap-3">
                 <span className="text-sm text-muted-foreground">Show:</span>
                 <Select
@@ -386,7 +366,7 @@ const Constituencies = () => {
             <table className="data-table">
               <thead>
                 <tr className="bg-muted/50">
-                  <th 
+                  <th
                     className="w-20 cursor-pointer select-none hover:bg-muted transition-colors"
                     onClick={() => handleSort("ac")}
                   >
@@ -395,7 +375,7 @@ const Constituencies = () => {
                       <SortIndicator column="ac" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="cursor-pointer select-none hover:bg-muted transition-colors"
                     onClick={() => handleSort("name")}
                   >
@@ -404,7 +384,7 @@ const Constituencies = () => {
                       <SortIndicator column="name" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="cursor-pointer select-none hover:bg-muted transition-colors"
                     onClick={() => handleSort("winner")}
                   >
@@ -413,7 +393,7 @@ const Constituencies = () => {
                       <SortIndicator column="winner" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="cursor-pointer select-none hover:bg-muted transition-colors"
                     onClick={() => handleSort("party")}
                   >
@@ -422,7 +402,7 @@ const Constituencies = () => {
                       <SortIndicator column="party" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="text-right cursor-pointer select-none hover:bg-muted transition-colors"
                     onClick={() => handleSort("votes")}
                   >
@@ -431,7 +411,7 @@ const Constituencies = () => {
                       <SortIndicator column="votes" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="text-right cursor-pointer select-none hover:bg-muted transition-colors"
                     onClick={() => handleSort("margin")}
                   >
@@ -440,7 +420,7 @@ const Constituencies = () => {
                       <SortIndicator column="margin" />
                     </div>
                   </th>
-                  <th 
+                  <th
                     className="text-right cursor-pointer select-none hover:bg-muted transition-colors"
                     onClick={() => handleSort("polling")}
                   >
@@ -490,6 +470,7 @@ const Constituencies = () => {
                         <PartyBadge
                           party={constituency.Winner_Details.Party}
                           size="sm"
+                          navigateToDetail={true}
                         />
                       </td>
                       <td className="text-right font-mono">

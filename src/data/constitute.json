@@ -1,0 +1,887 @@
+I can certainly provide the list of constituencies and their Assembly Constituency (AC) numbers in JSON format.
+
+However, the provided source documents (**"10-Detailed-Results.pdf,"** **"2-List-of-Successful-Candidates.pdf,"** and **"8-Constituency-Data-Summery-Report.pdf"**) only specify the Assembly Constituency (AC) Number and the Constituency Name, along with its Reservation Category (GEN, SC, or ST). **The district name for each constituency is not explicitly included in these sources.**
+
+Below is the comprehensive list of constituencies in the requested JSON format, using the data available in the documents:
+
+```json
+{
+  "constituencies": [
+    {
+      "AC_No": 1,
+      "Constituency_Name": "Ichchapuram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 2,
+      "Constituency_Name": "Palasa",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 3,
+      "Constituency_Name": "Tekkali",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 4,
+      "Constituency_Name": "Pathapatnam",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 5,
+      "Constituency_Name": "Srikakulam",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 6,
+      "Constituency_Name": "Amadalavalasa",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 7,
+      "Constituency_Name": "Etcherla",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 8,
+      "Constituency_Name": "Narasannapeta",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 9,
+      "Constituency_Name": "Rajam (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 10,
+      "Constituency_Name": "Palakonda (ST)",
+      "Category": "ST"
+    },
+    {
+      "AC_No": 11,
+      "Constituency_Name": "Kurupam (ST)",
+      "Category": "ST"
+    },
+    {
+      "AC_No": 12,
+      "Constituency_Name": "Parvathipuram (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 13,
+      "Constituency_Name": "Salur (ST)",
+      "Category": "ST"
+    },
+    {
+      "AC_No": 14,
+      "Constituency_Name": "Bobbili",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 15,
+      "Constituency_Name": "Cheepurupalle",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 16,
+      "Constituency_Name": "Gajapathinagaram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 17,
+      "Constituency_Name": "Nellimarla",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 18,
+      "Constituency_Name": "Vizianagaram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 19,
+      "Constituency_Name": "Srungavarapukota",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 20,
+      "Constituency_Name": "Bhimili",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 21,
+      "Constituency_Name": "Visakhapatnam East",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 22,
+      "Constituency_Name": "Visakhapatnam South",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 23,
+      "Constituency_Name": "Visakhapatnam North",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 24,
+      "Constituency_Name": "Visakhapatnam West",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 25,
+      "Constituency_Name": "Gajuwaka",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 26,
+      "Constituency_Name": "Chodavaram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 27,
+      "Constituency_Name": "Madugula",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 28,
+      "Constituency_Name": "Araku Valley (ST)",
+      "Category": "ST"
+    },
+    {
+      "AC_No": 29,
+      "Constituency_Name": "Paderu (ST)",
+      "Category": "ST"
+    },
+    {
+      "AC_No": 30,
+      "Constituency_Name": "Anakapalle",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 31,
+      "Constituency_Name": "Pendurthi",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 32,
+      "Constituency_Name": "Yelamanchili",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 33,
+      "Constituency_Name": "Payakaraopet (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 34,
+      "Constituency_Name": "Narsipatnam",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 35,
+      "Constituency_Name": "Tuni",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 36,
+      "Constituency_Name": "Prathipadu",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 37,
+      "Constituency_Name": "Pithapuram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 38,
+      "Constituency_Name": "Kakinada Rural",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 39,
+      "Constituency_Name": "Peddapuram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 40,
+      "Constituency_Name": "Anaparthy",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 41,
+      "Constituency_Name": "Kakinada City",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 42,
+      "Constituency_Name": "Ramachandrapuram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 43,
+      "Constituency_Name": "Mummidivaram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 44,
+      "Constituency_Name": "Amalapuram (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 45,
+      "Constituency_Name": "Razole (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 46,
+      "Constituency_Name": "Gannavaram(SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 47,
+      "Constituency_Name": "Kothapeta",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 48,
+      "Constituency_Name": "Mandapeta",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 49,
+      "Constituency_Name": "Rajanagaram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 50,
+      "Constituency_Name": "Rajahmundry City",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 51,
+      "Constituency_Name": "Rajahmundry Rural",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 52,
+      "Constituency_Name": "Jaggampeta",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 53,
+      "Constituency_Name": "Rampachodavaram (ST)",
+      "Category": "ST"
+    },
+    {
+      "AC_No": 54,
+      "Constituency_Name": "Kovvur (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 55,
+      "Constituency_Name": "Nidadavole",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 56,
+      "Constituency_Name": "Achanta",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 57,
+      "Constituency_Name": "Palacole",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 58,
+      "Constituency_Name": "Narasapuram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 59,
+      "Constituency_Name": "Bhimavaram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 60,
+      "Constituency_Name": "Undi",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 61,
+      "Constituency_Name": "Tanuku",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 62,
+      "Constituency_Name": "Tadepalligudem",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 63,
+      "Constituency_Name": "Ungutur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 64,
+      "Constituency_Name": "Denduluru",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 65,
+      "Constituency_Name": "Eluru",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 66,
+      "Constituency_Name": "Gopalapuram (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 67,
+      "Constituency_Name": "Polavaram (ST)",
+      "Category": "ST"
+    },
+    {
+      "AC_No": 68,
+      "Constituency_Name": "Chintalapudi (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 69,
+      "Constituency_Name": "Tiruvuru (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 70,
+      "Constituency_Name": "Nuzvid",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 71,
+      "Constituency_Name": "Gannavaram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 72,
+      "Constituency_Name": "Gudivada",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 73,
+      "Constituency_Name": "Kaikalur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 74,
+      "Constituency_Name": "Pedana",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 75,
+      "Constituency_Name": "Machilipatnam",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 76,
+      "Constituency_Name": "Avanigadda",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 77,
+      "Constituency_Name": "Pamarru (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 78,
+      "Constituency_Name": "Penamaluru",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 79,
+      "Constituency_Name": "Vijayawada West",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 80,
+      "Constituency_Name": "Vijayawada Central",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 81,
+      "Constituency_Name": "Vijayawada East",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 82,
+      "Constituency_Name": "Mylavaram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 83,
+      "Constituency_Name": "Nandigama (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 84,
+      "Constituency_Name": "Jaggayyapeta",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 85,
+      "Constituency_Name": "Pedakurapadu",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 86,
+      "Constituency_Name": "Tadikonda (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 87,
+      "Constituency_Name": "Mangalagiri",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 88,
+      "Constituency_Name": "Ponnur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 89,
+      "Constituency_Name": "Vemuru (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 90,
+      "Constituency_Name": "Repalle",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 91,
+      "Constituency_Name": "Tenali",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 92,
+      "Constituency_Name": "Bapatla",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 93,
+      "Constituency_Name": "Prathipadu (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 94,
+      "Constituency_Name": "Guntur West",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 95,
+      "Constituency_Name": "Guntur East",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 96,
+      "Constituency_Name": "Chilakaluripet",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 97,
+      "Constituency_Name": "Narasaraopet",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 98,
+      "Constituency_Name": "Sattenapalle",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 99,
+      "Constituency_Name": "Vinukonda",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 100,
+      "Constituency_Name": "Gurajala",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 101,
+      "Constituency_Name": "Macherla",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 102,
+      "Constituency_Name": "Yerragondapalem (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 103,
+      "Constituency_Name": "Darsi",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 104,
+      "Constituency_Name": "Parchur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 105,
+      "Constituency_Name": "Addanki",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 106,
+      "Constituency_Name": "Chirala",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 107,
+      "Constituency_Name": "Santhanuthalapadu (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 108,
+      "Constituency_Name": "Ongole",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 109,
+      "Constituency_Name": "Kandukur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 110,
+      "Constituency_Name": "Kondapi (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 111,
+      "Constituency_Name": "Markapuram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 112,
+      "Constituency_Name": "Giddalur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 113,
+      "Constituency_Name": "Kanigiri",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 114,
+      "Constituency_Name": "Kavali",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 115,
+      "Constituency_Name": "Atmakur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 116,
+      "Constituency_Name": "Kovur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 117,
+      "Constituency_Name": "Nellore City",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 118,
+      "Constituency_Name": "Nellore Rural",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 119,
+      "Constituency_Name": "Sarvepalli",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 120,
+      "Constituency_Name": "Gudur (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 121,
+      "Constituency_Name": "Sullurpeta (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 122,
+      "Constituency_Name": "Venkatagiri",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 123,
+      "Constituency_Name": "Udayagiri",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 124,
+      "Constituency_Name": "Badvel (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 125,
+      "Constituency_Name": "Rajampet",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 126,
+      "Constituency_Name": "Kadapa",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 127,
+      "Constituency_Name": "Kodur (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 128,
+      "Constituency_Name": "Rayachoti",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 129,
+      "Constituency_Name": "Pulivendla",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 130,
+      "Constituency_Name": "Kamalapuram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 131,
+      "Constituency_Name": "Jammalamadugu",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 132,
+      "Constituency_Name": "Proddatur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 133,
+      "Constituency_Name": "Mydukur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 134,
+      "Constituency_Name": "Allagadda",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 135,
+      "Constituency_Name": "Srisailam",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 136,
+      "Constituency_Name": "Nandikotkur (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 137,
+      "Constituency_Name": "Kurnool",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 138,
+      "Constituency_Name": "Panyam",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 139,
+      "Constituency_Name": "Nandyal",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 140,
+      "Constituency_Name": "Banaganapalle",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 141,
+      "Constituency_Name": "Dhone",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 142,
+      "Constituency_Name": "Pattikonda",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 143,
+      "Constituency_Name": "Kodumur (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 144,
+      "Constituency_Name": "Yemmiganur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 145,
+      "Constituency_Name": "Mantralayam",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 146,
+      "Constituency_Name": "Adoni",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 147,
+      "Constituency_Name": "Alur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 148,
+      "Constituency_Name": "Rayadurg",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 149,
+      "Constituency_Name": "Uravakonda",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 150,
+      "Constituency_Name": "Guntakal",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 151,
+      "Constituency_Name": "Tadpatri",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 152,
+      "Constituency_Name": "Singanamala (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 153,
+      "Constituency_Name": "Anantapur Urban",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 154,
+      "Constituency_Name": "Kalyandurg",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 155,
+      "Constituency_Name": "Raptadu",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 156,
+      "Constituency_Name": "Madakasira (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 157,
+      "Constituency_Name": "Hindupur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 158,
+      "Constituency_Name": "Penukonda",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 159,
+      "Constituency_Name": "Puttaparthi",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 160,
+      "Constituency_Name": "Dharmavaram",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 161,
+      "Constituency_Name": "Kadiri",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 162,
+      "Constituency_Name": "Thamballapalle",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 163,
+      "Constituency_Name": "Pileru",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 164,
+      "Constituency_Name": "Madanapalle",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 165,
+      "Constituency_Name": "Punganur",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 166,
+      "Constituency_Name": "Chandragiri",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 167,
+      "Constituency_Name": "Tirupati",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 168,
+      "Constituency_Name": "Srikalahasti",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 169,
+      "Constituency_Name": "Satyavedu (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 170,
+      "Constituency_Name": "Nagari",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 171,
+      "Constituency_Name": "Gangadhara Nellore (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 172,
+      "Constituency_Name": "Chittoor",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 173,
+      "Constituency_Name": "Puthalapattu (SC) (SC)",
+      "Category": "SC"
+    },
+    {
+      "AC_No": 174,
+      "Constituency_Name": "Palamaner",
+      "Category": "GENERAL"
+    },
+    {
+      "AC_No": 175,
+      "Constituency_Name": "Kuppam",
+      "Category": "GENERAL"
+    }
+  ]
+}
+```

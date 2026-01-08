@@ -118,7 +118,7 @@ const ConstituencyDetails = () => {
                   className="h-full bg-winner rounded-full transition-all duration-500"
                   style={{
                     width: `${(selectedConstituency.Winner_Details.Votes_Secured /
-                        totalVotesCast) *
+                      totalVotesCast) *
                       100
                       }%`,
                   }}
@@ -142,7 +142,7 @@ const ConstituencyDetails = () => {
                   className="h-full bg-muted-foreground/30 rounded-full transition-all duration-500"
                   style={{
                     width: `${(selectedConstituency.Runner_up_Details.Votes_Secured /
-                        totalVotesCast) *
+                      totalVotesCast) *
                       100
                       }%`,
                   }}
@@ -180,7 +180,7 @@ const ConstituencyDetails = () => {
           <VoteShareChart candidates={selectedConstituency.Top_5_Candidates} />
         </div>
         {/* Candidates Table */}
-        <CandidatesTable candidates={selectedConstituency.Top_5_Candidates} />
+        <CandidatesTable candidates={selectedConstituency.Top_5_Candidates} totalVotes={totalVotesCast} />
         {/* Footer */}
         <footer className="text-center py-6 text-sm text-muted-foreground">
           <p>

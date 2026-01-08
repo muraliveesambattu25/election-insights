@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils";
 import { getPartyBgClass, getPartyTextClass, getPartyIcon } from "@/lib/partyColors";
+import { Link } from "react-router-dom";
 
 interface PartyBadgeProps {
   party: string;
   size?: "sm" | "md" | "lg";
   showIcon?: boolean;
+  navigateToDetail?: boolean;
 }
 
 const sizeStyles = {
@@ -19,16 +21,17 @@ const iconSizes = {
   lg: "w-5 h-5",
 };
 
-export function PartyBadge({ party, size = "md", showIcon = true }: PartyBadgeProps) {
+export function PartyBadge({ party, size = "md", showIcon = true, navigateToDetail = false }: PartyBadgeProps) {
   const IconComponent = getPartyIcon(party);
-  
-  return (
+
+  const content = (
     <span
       className={cn(
-        "party-badge font-semibold inline-flex items-center",
+        "party-badge font-semibold inline-flex items-center whitespace-nowrap",
         sizeStyles[size],
         getPartyBgClass(party),
-        getPartyTextClass(party)
+        getPartyTextClass(party),
+        navigateToDetail && "hover:opacity-80 transition-opacity cursor-pointer"
       )}
     >
       {showIcon && IconComponent && (
@@ -37,4 +40,18 @@ export function PartyBadge({ party, size = "md", showIcon = true }: PartyBadgePr
       {party}
     </span>
   );
+
+  if (navigateToDetail) {
+    return (
+      <Link
+        to={`/party/${encodeURIComponent(party)}`}
+        className="inline-block"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return content;
 }
