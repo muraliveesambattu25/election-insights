@@ -37,6 +37,7 @@ interface DistrictStats {
     totalSeats: number;
     partyWins: Record<string, number>;
     totalVotes: number;
+    partyVotes: Record<string, number>;
 }
 
 const DistrictPerformance = () => {
@@ -60,6 +61,7 @@ const DistrictPerformance = () => {
                     totalSeats: 0,
                     partyWins: {},
                     totalVotes: 0,
+                    partyVotes: {},
                 };
             }
 
@@ -70,6 +72,12 @@ const DistrictPerformance = () => {
             const pollPercent = parseFloat(c.Polling_Percentage.replace('%', ''));
             const polled = Math.round(c.Total_Electors * pollPercent / 100);
             stats[districtName].totalVotes += polled;
+
+            // Accumulate party-wise votes from top 5 candidates
+            c.Top_5_Candidates.forEach((cand) => {
+                const party = cand.Party;
+                stats[districtName].partyVotes[party] = (stats[districtName].partyVotes[party] || 0) + cand.Votes_Secured;
+            });
         });
 
         const order = [
@@ -201,9 +209,14 @@ const DistrictPerformance = () => {
                                                     <div className="flex items-center gap-2">
                                                         <PartyBadge party={party} size="sm" navigateToDetail={true} />
                                                     </div>
-                                                    <div className="flex items-center gap-1">
-                                                        <span className="font-bold">{wins}</span>
-                                                        <span className="text-muted-foreground text-xs">seats</span>
+                                                    <div className="flex flex-col items-end">
+                                                        <div className="flex items-center gap-1">
+                                                            <span className="font-bold">{wins}</span>
+                                                            <span className="text-muted-foreground text-[10px]">seats</span>
+                                                        </div>
+                                                        <div className="text-[10px] text-muted-foreground">
+                                                            {(district.partyVotes[party] || 0).toLocaleString()} votes
+                                                        </div>
                                                     </div>
                                                 </div>
                                             ))}
@@ -221,10 +234,48 @@ const DistrictPerformance = () => {
             ) : (
                 /* Detailed View of Constituencies in Selected District */
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="bg-muted/30 rounded-xl p-6 border border-border flex items-center justify-between">
-                        <div>
-                            <h2 className="text-2xl font-bold mb-1">{selectedDistrict} District Details</h2>
-                            <p className="text-muted-foreground">Detailed performance for {selectedDistrictConstituencies.length} constituencies</p>
+                    <div className="bg-muted/30 rounded-xl p-6 border border-border">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h2 className="text-2xl font-bold mb-1">{selectedDistrict} District Details</h2>
+                                <p className="text-muted-foreground">Detailed performance for {selectedDistrictConstituencies.length} constituencies</p>
+                            </div>
+                            <div className="text-right">
+                                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Total Votes Polled</p>
+                                <p className="text-2xl font-bold font-mono">
+                                    {constituencies
+                                        .filter(c => c.District === selectedDistrict)
+                                        .reduce((sum, c) => {
+                                            const pollPercent = parseFloat(c.Polling_Percentage.replace('%', ''));
+                                            return sum + Math.round(c.Total_Electors * pollPercent / 100);
+                                        }, 0)
+                                        .toLocaleString()}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Party-wise vote summary for the district */}
+                        <div className="mt-6 pt-6 border-t border-border/50 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                            {Object.entries(
+                                selectedDistrictConstituencies.reduce((acc, c) => {
+                                    c.Top_5_Candidates.forEach(cand => {
+                                        acc[cand.Party] = (acc[cand.Party] || 0) + cand.Votes_Secured;
+                                    });
+                                    return acc;
+                                }, {} as Record<string, number>)
+                            )
+                                .sort(([, a], [, b]) => b - a)
+                                .slice(0, 6)
+                                .map(([party, votes]) => (
+                                    <div key={party} className="space-y-1">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: getPartyColor(party) }} />
+                                            <span className="text-xs font-bold">{party}</span>
+                                        </div>
+                                        <p className="text-sm font-mono">{votes.toLocaleString()}</p>
+                                        <p className="text-[10px] text-muted-foreground">Votes Gained</p>
+                                    </div>
+                                ))}
                         </div>
                     </div>
 
