@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { SEO } from "@/components/layout/SEO";
 import { useParams, Link } from "react-router-dom";
 import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
@@ -48,6 +49,7 @@ const PartyDetail = () => {
 
     return (
         <div className="container py-8 space-y-8 animate-fade-in">
+            <SEO title={decodedPartyName} />
             <div className="flex items-center gap-4">
                 <Link to="/party-performance">
                     <Button variant="ghost" size="icon">

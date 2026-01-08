@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { SEO } from "@/components/layout/SEO";
 import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import {
@@ -103,6 +104,7 @@ const DistrictPerformance = () => {
 
     return (
         <div className="container py-8 space-y-6 animate-fade-in">
+            <SEO title={selectedDistrict === "all" ? "District Analysis" : `${selectedDistrict} District Details`} />
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
                 <div>
                     <h1 className="text-3xl font-bold text-foreground">District Analysis</h1>

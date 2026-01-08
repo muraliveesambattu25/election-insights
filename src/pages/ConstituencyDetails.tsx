@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { SEO } from "@/components/layout/SEO";
 import { ElectionData, ConstituencyData } from "@/types/election";
 import electionDataRaw from "@/data/electionData.json";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
@@ -34,6 +35,7 @@ const ConstituencyDetails = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO title={`${selectedConstituency.Constituency_Name} Results`} />
       <DashboardHeader
         constituencies={constituencies}
         selectedAC={selectedAC}

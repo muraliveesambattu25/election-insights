@@ -8,6 +8,7 @@ import { PartySeatsSummary } from "@/components/dashboard/PartySeatsSummary";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { SEO } from "@/components/layout/SEO";
 import {
   Select,
   SelectContent,
@@ -229,6 +230,7 @@ const Constituencies = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <main className="container py-8 space-y-6">
+        <SEO title="Constituency Wise Results" />
         <div className="mb-2">
           <h1 className="text-3xl font-bold text-foreground">AP Assembly Elections 2024</h1>
           <p className="text-muted-foreground">All Constituencies Overview</p>
