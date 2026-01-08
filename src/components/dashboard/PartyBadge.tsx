@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { getPartyBgClass, getPartyTextClass, getPartyIcon } from "@/lib/partyColors";
 import { Link } from "react-router-dom";
@@ -16,12 +17,13 @@ const sizeStyles = {
 };
 
 const iconSizes = {
-  sm: "w-3 h-3",
-  md: "w-4 h-4",
-  lg: "w-5 h-5",
+  sm: "w-5 h-5",
+  md: "w-6 h-6",
+  lg: "w-8 h-8",
 };
 
 export function PartyBadge({ party, size = "md", showIcon = true, navigateToDetail = false }: PartyBadgeProps) {
+  const [hasError, setHasError] = useState(false);
   const IconComponent = getPartyIcon(party);
 
   const content = (
@@ -34,10 +36,21 @@ export function PartyBadge({ party, size = "md", showIcon = true, navigateToDeta
         navigateToDetail && "hover:opacity-80 transition-opacity cursor-pointer"
       )}
     >
-      {showIcon && IconComponent && (
-        <IconComponent className={iconSizes[size]} />
+      {showIcon && (
+        <div className={cn("flex items-center justify-center shrink-0", iconSizes[size])}>
+          {!hasError ? (
+            <img
+              src={`/logos/${party}.png`}
+              alt={party}
+              className="w-full h-full object-contain"
+              onError={() => setHasError(true)}
+            />
+          ) : (
+            IconComponent && <IconComponent className="w-full h-full" />
+          )}
+        </div>
       )}
-      {party}
+      <span className="ml-1">{party}</span>
     </span>
   );
 

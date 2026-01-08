@@ -7,7 +7,7 @@ export const PARTY_COLORS: Record<string, string> = {
   YSRCP: "hsl(200, 80%, 50%)",    // Blue
   BJP: "hsl(25, 100%, 55%)",      // Orange
   INC: "hsl(142, 70%, 40%)",      // Green
-  JnP: "hsl(280, 60%, 50%)",      // Purple
+  JnP: "rgba(200, 35, 42, 0.7)",      // Red with opacity
   BSP: "hsl(220, 60%, 45%)",      // Dark Blue
   NOTA: "hsl(0, 0%, 50%)",        // Gray
   IND: "hsl(0, 0%, 60%)",         // Light Gray
